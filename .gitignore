@@ -2,5 +2,7 @@ Library/
 Logs/
 obj/
 UserSettings/
+原稿/*.blend1
+原稿/*.fbx
 *.csproj
 *.sln
