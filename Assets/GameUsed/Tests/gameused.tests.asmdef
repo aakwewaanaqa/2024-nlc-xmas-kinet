@@ -1,0 +1,13 @@
+{
+  "name": "gameused.tests",
+  "overrideReferences": true,
+  "defineConstraints": [ "UNITY_INCLUDE_TESTS" ],
+  "precompiledReferences": [ "nunit.framework.dll" ],
+  "references": [
+    "UniTask",
+    "UnityEngine.TestRunner",
+    "kinetcore",
+    "kinetview",
+    "gameused.core"
+  ]
+}

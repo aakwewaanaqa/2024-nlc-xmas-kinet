@@ -1,0 +1,4 @@
+{
+  "name": "kinetview",
+  "references": ["kinetcore"]
+}
