@@ -11,18 +11,44 @@ namespace GameUsed.Scenes.Title
         private static class Pipeline
         {
             public static TitleView    title;
-            public static GiftDropView giftDrop;
+            public static ClawView     claw;
+            public static GiftProvider giftProvider;
+            public static GiftReceiver giftReceiver;
 
             /// <summary>
-            ///     流水線入口
+            ///     流程流水線入口
             /// </summary>
             public static PipeFunc Entry =>
-                WaitForTouch;
+                AsTitle.Then(
+                    WaitForTouch.RetryThen(
+                        WaitForGiftReceived.Then(
+                            AsReceiveGift,
+                            async () => PipeReturn.Except(new ToTitle())
+                            )
+                        )
+                    );
+
+            private static PipeFunc AsReceiveGift => async () =>
+            {
+                return default;
+            };
+
+            private static PipeFunc AsTitle => async () =>
+            {
+                await giftProvider.Begin(null);
+                await title.Show(null);
+                return default;
+            };
 
             private static PipeFunc WaitForTouch => async () =>
             {
-                await giftDrop.Begin(null);
-                await title.Show(null);
+                return default;
+            };
+
+            private static PipeFunc WaitForGiftReceived => async () =>
+            {
+                await giftReceiver.Begin(null);
+                await giftProvider.Stop(null);
                 return default;
             };
         }

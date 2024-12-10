@@ -9,16 +9,17 @@ namespace GameUsed.Scenes.Title
     public partial class Main : MonoBehaviour
     {
         [SerializeField] private TitleView    title;
-        [SerializeField] private GiftDropView giftDrop;
+        [SerializeField] private GiftProvider giftDrop;
 
         private async UniTask Start()
         {
             var r           = await Pipeline.Entry();
             if (!r.IsEnd) r = await r.Continue();
+            if (r.Ex is ToTitle) await SceneTransitioner.Load("title");
         }
     }
 
-    public class GiftDropView : MonoBehaviour
+    public class GiftProvider : MonoBehaviour
     {
         public async UniTask Begin(object input)
         {

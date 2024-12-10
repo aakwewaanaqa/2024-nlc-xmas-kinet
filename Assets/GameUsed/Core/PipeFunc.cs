@@ -18,6 +18,11 @@ namespace GameUsed.Core
             Then = then;
         }
 
+        public static PipeReturn Except(Exception ex)
+        {
+            return new PipeReturn(ex);
+        }
+
         public async UniTask<PipeReturn> Continue()
         {
             return await Then();
