@@ -1,3 +1,8 @@
 {
-	"name": "gameused.scenes.title"
+	"name": "gameused.scenes.title",
+	"references": [
+		"UniTask",
+		"kinetview",
+		"gameused.core"
+	]
 }

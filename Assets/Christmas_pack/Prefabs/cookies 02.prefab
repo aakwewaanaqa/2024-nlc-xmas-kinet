@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1783330812166561753}
   - component: {fileID: 4565346710873877267}
   m_Layer: 0
-  m_Name: Cookies_02
+  m_Name: cookies 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

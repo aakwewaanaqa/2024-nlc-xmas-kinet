@@ -1,3 +1,7 @@
 {
-  "name": "gameused.core"
+  "name": "gameused.core",
+  "references": [
+    "UniTask",
+    "kinetview"
+  ]
 }
