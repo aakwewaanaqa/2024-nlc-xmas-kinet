@@ -8,9 +8,9 @@ namespace GameUsed.Core
     {
         public static async UniTask Load(string sceneName)
         {
-            await Program.Wiper.Show(null);
+            await Program.WiperView.Show(null);
             await SceneManager.LoadSceneAsync(sceneName);
-            await Program.Wiper.Hide(null);
+            await Program.WiperView.Hide(null);
         }
     }
 }
