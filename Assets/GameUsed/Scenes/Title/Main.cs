@@ -18,10 +18,9 @@ namespace GameUsed.Scenes.Title
             Pipeline.title        = title;
             Pipeline.claw         = claw;
             Pipeline.giftProvider = giftProvider;
-            Pipeline.giftReceiver = giftReceiver;
-            
-            var r           = await Pipeline.Entry();
-            if (!r.IsEnd) r = await r.Continue();
+
+            var r              = await Pipeline.Entry();
+            while (!r.IsEnd) r = await r.Continue();
             if (r.Ex is ToTitle) await SceneTransitioner.Load("title");
         }
     }

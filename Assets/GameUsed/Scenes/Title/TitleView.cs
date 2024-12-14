@@ -10,13 +10,15 @@ namespace GameUsed.Scenes.Title
     public class TitleView : MonoBehaviour
     {
         [SerializeField] private CanvasGroup group;
+        [SerializeField] public  KButton     startGame;
 
         private CancellationTokenSource cts { get; set; }
 
         public async UniTask<object> Show(object input)
         {
             cts = cts.Link(default, out var inner);
-            await group.alpha.LerpTo(1f, update: f =>
+            gameObject.SetActive(true);
+            await group.alpha.LerpTo(1f, 3f, f =>
             {
                 group.alpha = f;
             }, ct: inner);
@@ -24,14 +26,28 @@ namespace GameUsed.Scenes.Title
             return null;
         }
 
+        /// 用於等待開始遊戲
+        public async UniTask WaitForTouch()
+        {
+            var isWaiting = true;
+            startGame.onClick.RemoveAllListeners();
+            startGame.onClick.AddListener(() =>
+            {
+                Debug.Log("start game touched.");
+                isWaiting = false;
+            });
+            await UniTask.WaitWhile(() => isWaiting);
+        }
+
         public async UniTask<object> Hide(object input)
         {
             cts = cts.Link(default, out var inner);
-            await group.alpha.LerpTo(0f, update: f =>
+            await group.alpha.LerpTo(0f, 3f, f =>
             {
                 group.alpha = f;
             }, ct: inner);
             group.interactable = false;
+            gameObject.SetActive(false);
             return null;
         }
     }

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using GameUsed.Core;
 using UnityEngine;
 
@@ -10,44 +11,51 @@ namespace GameUsed.Scenes.Title
         /// </summary>
         private static class Pipeline
         {
-            public static TitleView    title;
-            public static ClawView     claw;
-            public static GiftProvider giftProvider;
-            public static GiftReceiver giftReceiver;
+            public static TitleView    title;        // 標題畫面
+            public static ClawView     claw;         // 操控夾子的按鈕
+            public static GiftProvider giftProvider; // 禮物提供產生器
+            public static string       blessing;     // 夾到的祝福語
 
             /// <summary>
             ///     流程流水線入口
             /// </summary>
             public static PipeFunc Entry =>
-                AsTitle.Then(
-                    WaitForTouch.RetryThen(
-                        WaitForGiftReceived.Then(
-                            AsReceiveGift,
+                ShowTitle.Then(
+                    WaitForTouch.Then(            // 開頭畫面等待觸碰標題
+                        WaitForGiftReceived.Then( // 等待夾到禮物
+                            ShowReceiveGift,
                             async () => PipeReturn.Except(new ToTitle())
-                            )
                         )
-                    );
+                    )
+                );
 
-            private static PipeFunc AsReceiveGift => async () =>
+            private static PipeFunc ShowReceiveGift => async () =>
             {
+                Debug.Log("ShowReceiveGift");
                 return default;
             };
 
-            private static PipeFunc AsTitle => async () =>
+            private static PipeFunc ShowTitle => async () =>
             {
-                await giftProvider.Begin(null);
+                Debug.Log("ShowTitle");
+                giftProvider.Begin(null).Forget();
                 await title.Show(null);
                 return default;
             };
 
             private static PipeFunc WaitForTouch => async () =>
             {
+                Debug.Log("WaitForTouch");
+                await title.WaitForTouch();
                 return default;
             };
 
             private static PipeFunc WaitForGiftReceived => async () =>
             {
-                await giftReceiver.Begin(null);
+                Debug.Log("WaitForGiftReceived");
+                title.Hide(null).Forget();
+                claw.Show(null).Forget();
+                await UniTask.WaitWhile(() => string.IsNullOrEmpty(blessing)); // 等待夾到禮物
                 await giftProvider.Stop(null);
                 return default;
             };

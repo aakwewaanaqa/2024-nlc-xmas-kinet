@@ -12,7 +12,7 @@ namespace GameUsed.Core
         IPointerDownHandler, IPointerUpHandler
     {
         [Tooltip("是否重複執行 OnClick")]
-        [SerializeField] public bool       isRepeatedly;
+        [SerializeField] public bool isRepeatedly;
 
         [Tooltip("按下時執行的事件")]
         [SerializeField] public UnityEvent onClick;

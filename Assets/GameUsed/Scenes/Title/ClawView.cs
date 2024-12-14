@@ -1,4 +1,5 @@
 using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using GameUsed.Core;
 using UnityEngine;
@@ -9,10 +10,10 @@ namespace GameUsed.Scenes.Title
     [AddComponentMenu("Title/Claw View")]
     public class ClawView : MonoBehaviour
     {
-        [SerializeField] private Claw  claw;
-        [SerializeField] private Image goLeft;
-        [SerializeField] private Image goRight;
-        [SerializeField] private Image grab;
+        [SerializeField] private Claw        claw;
+        [SerializeField] private KButton     goLeft;
+        [SerializeField] private KButton     goRight;
+        [SerializeField] private KButton     grab;
         [SerializeField] private CanvasGroup group;
 
         private CancellationTokenSource cts { get; set; }
@@ -20,24 +21,40 @@ namespace GameUsed.Scenes.Title
         public async UniTask<object> Show(object input)
         {
             cts = cts.Link(default, out var inner);
-            await group.alpha.LerpTo(1f, update: f =>
+            gameObject.SetActive(true);
+            await group.alpha.LerpTo(1f, 15f, f =>
             {
                 group.alpha = f;
             }, ct: inner);
             group.interactable = true;
+
+            goLeft.onClick.RemoveAllListeners();
+            goLeft.onClick.AddListener(() => claw.Shift(Claw.Direction.Left));
+
+            goRight.onClick.RemoveAllListeners();
+            goRight.onClick.AddListener(() => claw.Shift(Claw.Direction.Right));
+
+            grab.onClick.RemoveAllListeners();
+            grab.onClick.AddListener(UniTask.UnityAction(async () =>
+            {
+                await claw.Grab();
+            }));
+
             return null;
         }
 
         public async UniTask<object> Hide(object input)
         {
             cts = cts.Link(default, out var inner);
-            await group.alpha.LerpTo(0f, update: f =>
+
+            group.interactable = false;
+            await group.alpha.LerpTo(0f, 3f, f =>
             {
                 group.alpha = f;
             }, ct: inner);
-            group.interactable = false;
+            gameObject.SetActive(true);
+
             return null;
         }
-
     }
 }

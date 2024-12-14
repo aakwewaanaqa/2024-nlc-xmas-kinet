@@ -22,7 +22,11 @@ namespace GameUsed.Core
                     if (r.IsFaulty) throw r.Ex;
                     return new PipeReturn(null, onOk);
                 }
-                catch { return new PipeReturn(null, onNg); }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                    return new PipeReturn(null, onNg);
+                }
             };
         }
 
@@ -36,7 +40,11 @@ namespace GameUsed.Core
                     if (r.IsFaulty) throw r.Ex;
                     return new PipeReturn(null, onOk);
                 }
-                catch (Exception ex) { return new PipeReturn(ex, null); }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                    return new PipeReturn(ex);
+                }
             };
         }
 
@@ -50,7 +58,11 @@ namespace GameUsed.Core
                     if (r.IsFaulty) throw r.Ex;
                     return new PipeReturn(null, onOk);
                 }
-                catch { return new PipeReturn(null, f.RetryThen(onOk)); }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                    return new PipeReturn(null, f.RetryThen(onOk));
+                }
             };
         }
 
@@ -73,12 +85,14 @@ namespace GameUsed.Core
             Action<float>     update = null,
             CancellationToken ct     = default)
         {
-            for (; !f.Equals(t); f += (t - f) * speed * Time.deltaTime)
+            for (; !f.IsCloseTo(t); f += (t - f) * speed * Time.deltaTime)
             {
                 if (ct.IsCancellationRequested) break;
                 update?.Invoke(f);
                 await UniTask.Yield();
             }
+
+            update?.Invoke(t);
         }
 
         public static async UniTask Loop(
@@ -94,7 +108,7 @@ namespace GameUsed.Core
             }
         }
 
-        private static bool Equals(this float f, float t)
+        private static bool IsCloseTo(this float f, float t)
         {
             return Math.Abs(f - t) < 0.01f;
         }
