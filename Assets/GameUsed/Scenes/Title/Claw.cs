@@ -23,19 +23,25 @@ namespace GameUsed.Scenes.Title
         private void OnEnable()
         {
             self = GetComponent<Rigidbody>();
-            // 左右對於攝影機中的世界是顛倒的
-            left.onClick.AddListener(() => Shift(+speed));
-            right.onClick.AddListener(() => Shift(-speed));
+
+            left.onClick.RemoveAllListeners();
+            left.onClick.AddListener(() => ShiftForUI(+speed));
+
+            right.onClick.RemoveAllListeners();
+            right.onClick.AddListener(() => ShiftForUI(-speed));
+
+            grab.onClick.RemoveAllListeners();
+            grab.onClick.AddListener(UniTask.UnityAction(Grab));
         }
 
-        private void Shift(float speed)
+        private void ShiftForUI(float speed)
         {
             var position = self.position;
             position.x = Mathf.Clamp(position.x + speed * Time.deltaTime, MIN_X, MAX_X);
             self.MovePosition(position);
         }
 
-        public async UniTask Grab()
+        private async UniTaskVoid Grab()
         {
         }
 
