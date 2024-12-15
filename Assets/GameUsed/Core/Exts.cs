@@ -7,6 +7,11 @@ namespace GameUsed.Core
 {
     public static class Exts
     {
+        public static bool IsObject(this object o)
+        {
+            return o != null && !o.Equals(null);
+        }
+
         public static U Apply<T, U>(this T t, Func<T, U> f)
         {
             return f(t);
@@ -17,7 +22,7 @@ namespace GameUsed.Core
             f(t);
         }
 
-        public static PipeFunc Then(this PipeFunc f, PipeFunc onOk, PipeFunc onNg)
+        public static Pipe Then(this Pipe f, Pipe onOk, Pipe onNg)
         {
             return async () =>
             {
@@ -35,7 +40,7 @@ namespace GameUsed.Core
             };
         }
 
-        public static PipeFunc Then(this PipeFunc f, PipeFunc onOk)
+        public static Pipe Then(this Pipe f, Pipe onOk)
         {
             return async () =>
             {
@@ -53,7 +58,7 @@ namespace GameUsed.Core
             };
         }
 
-        public static PipeFunc RetryThen(this PipeFunc f, PipeFunc onOk)
+        public static Pipe RetryThen(this Pipe f, Pipe onOk)
         {
             return async () =>
             {

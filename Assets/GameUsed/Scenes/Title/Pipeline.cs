@@ -9,7 +9,7 @@ namespace GameUsed.Scenes.Title
         /// <summary>
         ///     流程流水線
         /// </summary>
-        private static class Pipeline
+        internal static class Pipeline
         {
             public static TitleView    titleView;    // 標題畫面
             public static ClawView     clawView;     // 操控夾子的按鈕
@@ -19,23 +19,23 @@ namespace GameUsed.Scenes.Title
             /// <summary>
             ///     流程流水線入口
             /// </summary>
-            public static PipeFunc Entry =>
-                ShowTitle.Then(
+            public static Pipe Entry =>
+                ShowTitle.Then(                   // 顯示標題畫面
                     WaitForTouch.Then(            // 開頭畫面等待觸碰標題
                         WaitForGiftReceived.Then( // 等待夾到禮物
-                            ShowReceiveGift,
-                            async () => PipeReturn.Except(new ToTitle())
+                            ShowReceivedGift      // 顯示禮物
                         )
                     )
                 );
 
-            private static PipeFunc ShowReceiveGift => async () =>
+            private static Pipe ShowReceivedGift => async () =>
             {
                 Debug.Log("ShowReceiveGift");
+                Debug.Log(blessing);
                 return default;
             };
 
-            private static PipeFunc ShowTitle => async () =>
+            private static Pipe ShowTitle => async () =>
             {
                 Debug.Log("ShowTitle");
                 giftProvider.Begin(null).Forget();
@@ -43,14 +43,14 @@ namespace GameUsed.Scenes.Title
                 return default;
             };
 
-            private static PipeFunc WaitForTouch => async () =>
+            private static Pipe WaitForTouch => async () =>
             {
                 Debug.Log("WaitForTouch");
                 await titleView.WaitForTouch();
                 return default;
             };
 
-            private static PipeFunc WaitForGiftReceived => async () =>
+            private static Pipe WaitForGiftReceived => async () =>
             {
                 Debug.Log("WaitForGiftReceived");
                 titleView.Hide(null).Forget();

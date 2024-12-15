@@ -39,32 +39,48 @@ namespace GameUsed.Scenes.Title
 
         public async UniTask<object> Grab()
         {
-            animator.SetBool(open, true);  // 鬆開爪子
-            await ProlongSpring();         // 伸展彈簧
-            await UniTask.Delay(1500);     // 等待1.5秒
-            trigger.FixToClaw();           // 把禮物固定在爪子上
-            animator.SetBool(open, false); // 夾起禮物
+            await OpenClaw();                 // 張開爪子
+            await ProlongSpring();            // 伸展彈簧
+            trigger.FixToClaw();              // 把禮物固定在爪子上
+            await CloseClaw();                // 夾起禮物
+            await ShortenSpring();            // 收縮彈簧
+            await BackToPlace();              // 回到原位
+            await OpenClaw();                 // 張開爪子
+            var gift = trigger.ReleaseClaw(); // 釋放禮物
+            await UniTask.Delay(1000);        // 等待1.0秒
+            return gift;
+        }
+
+        private async UniTask<object> OpenClaw()
+        {
+            animator.SetBool(open, true); // 張開爪子
+            return null;
+        }
+
+        private async UniTask<object> CloseClaw()
+        {
+            animator.SetBool(open, false); // 收起開爪子
             await UniTask.Delay(1000);     // 等待1.0秒
-            await ShortenSpring();         // 收縮彈簧
-            await BackToPlace();           // 回到原位
-            return trigger.ReleaseClaw();  // 釋放禮物
+            return null;
         }
 
         private async UniTask<object> ProlongSpring()
         {
             await spring.maxDistance.LerpTo(1.0f, 3f, f => { spring.maxDistance = f; }); // 伸展彈簧
+            await UniTask.Delay(1500);                                                   // 等待1.5秒
             return null;
         }
 
         private async UniTask<object> ShortenSpring()
         {
             await spring.maxDistance.LerpTo(0f, 3f, f => { spring.maxDistance = f; }); // 收縮彈簧
+            await UniTask.Delay(1000);                                                 // 等待1.2秒
             return null;
         }
 
         private async UniTask<object> BackToPlace()
         {
-            await transform.position.MoveTo(originalPlace, 3f, p => { transform.position = p; });
+            await transform.position.MoveTo(originalPlace, 1f, p => { transform.position = p; });
             return null;
         }
 

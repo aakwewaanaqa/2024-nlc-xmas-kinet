@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using GameUsed.Core;
 using UnityEngine;
@@ -10,7 +11,14 @@ namespace GameUsed.Scenes.Title
     public class Gift : MonoBehaviour
     {
         [NonSerialized] public string qrCode;
-        [NonSerialized] public string bendicion;
+        [NonSerialized] public string blessing;
+
+        private CancellationTokenSource cts { get; } = new();
+
+        public void PreventFromDestroy()
+        {
+            cts.Cancel();
+        }
 
         private async UniTask Start()
         {
@@ -18,15 +26,15 @@ namespace GameUsed.Scenes.Title
             var trans = transform;
             0f.LerpTo(1f, 15f, t =>
             {
-                trans.localScale = Vector3.one * t;
-            }).Forget();
-            await UniTask.Delay(25000);
+                trans.localScale = Vector3.one * t; // 禮物放大
+            }, cts.Token).Forget();                 // 不要等
+            await UniTask.Delay(25000, cancellationToken: cts.Token);
             1f.LerpTo(0f, 45f, t =>
             {
-                trans.localScale = Vector3.one * t;
-            }).Forget();
-            await UniTask.Delay(1000);
-            Destroy(gameObject);
+                trans.localScale = Vector3.one * t; // 禮物縮小
+            }, cts.Token).Forget();                 // 不要等
+            await UniTask.Delay(1000, cancellationToken: cts.Token);
+            if (!cts.Token.IsCancellationRequested) Destroy(gameObject);
         }
     }
 }

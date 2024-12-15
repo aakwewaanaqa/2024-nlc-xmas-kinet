@@ -25,7 +25,7 @@ namespace GameUsed.Scenes.Title
             await group.alpha.LerpTo(1f, 15f, f =>
             {
                 group.alpha = f;
-            }, ct: inner);
+            }, inner);
             group.interactable = true;
 
             goLeft.onClick.RemoveAllListeners();
@@ -37,7 +37,8 @@ namespace GameUsed.Scenes.Title
             grab.onClick.RemoveAllListeners();
             grab.onClick.AddListener(UniTask.UnityAction(async () =>
             {
-                await claw.Grab();
+                var gift = (Gift) await claw.Grab();
+                if (gift.IsObject()) Main.Pipeline.blessing = gift.blessing;
             }));
 
             return null;

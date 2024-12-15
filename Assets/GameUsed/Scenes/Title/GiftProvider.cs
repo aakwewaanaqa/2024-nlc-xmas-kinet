@@ -32,10 +32,9 @@ namespace GameUsed.Scenes.Title
             {
                 var position = bounds.GetRandomPosition();
                 Instantiate(gift, position, Random.rotation)
-                   .GetComponent<Gift>().Apply(g =>
+                   .GetComponent<Gift>().Let(g =>
                     {
-                        g.bendicion = blessings[Range(0, blessings.Length)];
-                        return g;
+                        g.blessing = blessings[Range(0, blessings.Length)];
                     });
             }, inner);
             return null;
