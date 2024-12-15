@@ -1,0 +1,8 @@
+{
+	"name": "gameused.scenes.bootstrap",
+	"references": [
+		"UniTask",
+		"gameused.core",
+		"Unity.TextMeshPro"
+	]
+}

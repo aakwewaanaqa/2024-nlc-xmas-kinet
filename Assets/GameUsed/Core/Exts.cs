@@ -157,6 +157,19 @@ namespace GameUsed.Core
             }
         }
 
+        public static async UniTask<PipeReturn> Engage(this Pipe entry)
+        {
+            var r = await entry();
+            if (r.IsFaulty) Debug.LogError(r.Ex);
+            while (!r.IsEnd)
+            {
+                r = await r.Continue();
+                if (r.IsFaulty) Debug.LogError(r.Ex);
+            }
+
+            return r;
+        }
+
         private static bool IsCloseTo(this float f, float t)
         {
             return Math.Abs(f - t) < 0.01f;
