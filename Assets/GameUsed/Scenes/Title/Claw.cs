@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using GameUsed.Core;
 using UnityEngine;
@@ -18,6 +19,8 @@ namespace GameUsed.Scenes.Title
         [SerializeField] private Rigidbody   root;   // 爪子懸掛的根基
         [SerializeField] private SpringJoint spring; // 爪子懸掛著彈簧，鬆開彈簧夾禮物
         [SerializeField] private Animator    animator;
+        [SerializeField] private ClawTrigger trigger;
+        [SerializeField] private Vector3     originalPlace;
 
         /// 爪子可以移動的方向
         public enum Direction
@@ -36,23 +39,38 @@ namespace GameUsed.Scenes.Title
 
         public async UniTask<object> Grab()
         {
-            animator.SetBool(open, true);
-            await spring.maxDistance.LerpTo(1.2f, 3f, f =>
-            {
-                spring.maxDistance = f;
-            });                            // 伸展彈簧
+            animator.SetBool(open, true);  // 鬆開爪子
+            await ProlongSpring();         // 伸展彈簧
+            await UniTask.Delay(1500);     // 等待1.5秒
+            trigger.FixToClaw();           // 把禮物固定在爪子上
             animator.SetBool(open, false); // 夾起禮物
-            await UniTask.Delay(1000);     // 等待一秒
-            await spring.maxDistance.LerpTo(0f, 3f, f =>
-            {
-                spring.maxDistance = f;
-            }); // 收縮彈簧
-            // TODO: 還不知道怎麼抓到禮物
+            await UniTask.Delay(1000);     // 等待1.0秒
+            await ShortenSpring();         // 收縮彈簧
+            await BackToPlace();           // 回到原位
+            return trigger.ReleaseClaw();  // 釋放禮物
+        }
+
+        private async UniTask<object> ProlongSpring()
+        {
+            await spring.maxDistance.LerpTo(1.0f, 3f, f => { spring.maxDistance = f; }); // 伸展彈簧
             return null;
         }
 
-        public async UniTask Release()
+        private async UniTask<object> ShortenSpring()
         {
+            await spring.maxDistance.LerpTo(0f, 3f, f => { spring.maxDistance = f; }); // 收縮彈簧
+            return null;
+        }
+
+        private async UniTask<object> BackToPlace()
+        {
+            await transform.position.MoveTo(originalPlace, 3f, p => { transform.position = p; });
+            return null;
+        }
+
+        private async UniTask<object> ReleaseGift(Gift gift)
+        {
+            return null;
         }
     }
 }

@@ -276,6 +276,17 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &721371604 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 312538267094697594, guid: a0d08f4634a3d7d43b77c7da7a43f883, type: 3}
+  m_PrefabInstance: {fileID: 6251972399057602073}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c661a1f3b2d34e93b3bd57c29d976262, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &785550549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,6 +1394,7 @@ MonoBehaviour:
   root: {fileID: 1659280781}
   spring: {fileID: 1912115273}
   animator: {fileID: 1912115275}
+  trigger: {fileID: 721371604}
 --- !u!1 &1677366005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,7 +1483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 578724d32e574af2b9f59af2834fbb4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRepeatedly: 1
+  isRepeatedly: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1670,7 +1682,7 @@ SpringJoint:
   m_Spring: 1000
   m_Damper: 1
   m_MinDistance: 0
-  m_MaxDistance: 0
+  m_MaxDistance: 0.046656106
   m_Tolerance: 0.001
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -2158,7 +2170,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 787045744}
     m_RemovedComponents:
-    - {fileID: 3334048950732780814, guid: a0d08f4634a3d7d43b77c7da7a43f883, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

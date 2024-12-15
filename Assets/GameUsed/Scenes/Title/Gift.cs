@@ -7,7 +7,6 @@ using static UnityEngine.Random;
 namespace GameUsed.Scenes.Title
 {
     [AddComponentMenu("Title/Gift")]
-    [RequireComponent(typeof(Rigidbody))]
     public class Gift : MonoBehaviour
     {
         [NonSerialized] public string qrCode;

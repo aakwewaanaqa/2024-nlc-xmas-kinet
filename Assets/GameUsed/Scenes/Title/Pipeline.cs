@@ -11,8 +11,8 @@ namespace GameUsed.Scenes.Title
         /// </summary>
         private static class Pipeline
         {
-            public static TitleView    title;        // 標題畫面
-            public static ClawView     claw;         // 操控夾子的按鈕
+            public static TitleView    titleView;    // 標題畫面
+            public static ClawView     clawView;     // 操控夾子的按鈕
             public static GiftProvider giftProvider; // 禮物提供產生器
             public static string       blessing;     // 夾到的祝福語
 
@@ -39,22 +39,22 @@ namespace GameUsed.Scenes.Title
             {
                 Debug.Log("ShowTitle");
                 giftProvider.Begin(null).Forget();
-                await title.Show(null);
+                await titleView.Show(null);
                 return default;
             };
 
             private static PipeFunc WaitForTouch => async () =>
             {
                 Debug.Log("WaitForTouch");
-                await title.WaitForTouch();
+                await titleView.WaitForTouch();
                 return default;
             };
 
             private static PipeFunc WaitForGiftReceived => async () =>
             {
                 Debug.Log("WaitForGiftReceived");
-                title.Hide(null).Forget();
-                claw.Show(null).Forget();
+                titleView.Hide(null).Forget();
+                clawView.Show(null).Forget();
                 await UniTask.WaitWhile(() => string.IsNullOrEmpty(blessing)); // 等待夾到禮物
                 await giftProvider.Stop(null);
                 return default;

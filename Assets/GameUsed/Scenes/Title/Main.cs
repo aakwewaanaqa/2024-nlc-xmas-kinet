@@ -15,8 +15,8 @@ namespace GameUsed.Scenes.Title
 
         private async UniTask Start()
         {
-            Pipeline.title        = title;
-            Pipeline.claw         = claw;
+            Pipeline.titleView        = title;
+            Pipeline.clawView         = claw;
             Pipeline.giftProvider = giftProvider;
 
             var r              = await Pipeline.Entry();
