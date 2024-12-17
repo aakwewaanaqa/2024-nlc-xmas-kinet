@@ -8,11 +8,14 @@ public class BodySourceManager : MonoBehaviour
     private BodyFrameReader _Reader;
     private Body[] _Data = null;
     
+    public bool IsReady => _Sensor is object && 
+                           !_Sensor.Equals(null) &&
+                           _Sensor.IsOpen;
+    
     public Body[] GetData()
     {
         return _Data;
     }
-    
 
     void Start () 
     {

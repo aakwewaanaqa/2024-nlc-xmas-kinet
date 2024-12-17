@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using GameUsed.Core;
+using GameUsed.Scenes.Bootstrap;
 using UnityEngine;
 
 namespace GameUsed.Scenes.Title
@@ -14,6 +15,7 @@ namespace GameUsed.Scenes.Title
             public static TitleView    titleView;    // 標題畫面
             public static ClawView     clawView;     // 操控夾子的按鈕
             public static GiftProvider giftProvider; // 禮物提供產生器
+            public static HandsView    hands;        // 手部感測顯示
             public static string       blessing;     // 夾到的祝福語
 
             /// <summary>
@@ -39,6 +41,7 @@ namespace GameUsed.Scenes.Title
             {
                 Debug.Log("ShowTitle");
                 giftProvider.Begin(null).Forget();
+                hands.Show(null).Forget();
                 await titleView.Show(null);
                 return default;
             };

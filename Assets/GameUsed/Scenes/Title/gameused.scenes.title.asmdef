@@ -3,6 +3,7 @@
 	"references": [
 		"UniTask",
 		"kinetview",
-		"gameused.core"
+		"gameused.core",
+		"gameused.scenes.bootstrap"
 	]
 }

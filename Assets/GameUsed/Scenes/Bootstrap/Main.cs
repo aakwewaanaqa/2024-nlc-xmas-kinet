@@ -14,10 +14,12 @@ namespace GameUsed.Scenes.Bootstrap
     public class Main : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI logger;
+        [SerializeField] private HandsView hands;
 
         private async UniTask Start()
         {
             Application.logMessageReceived += OnLogMessageReceived;
+            Pipeline.hands = hands;
             var r = await Pipeline.Entry.Engage();
             if (r.IsFaulty) Debug.LogError(r.Ex);
         }
@@ -34,8 +36,12 @@ namespace GameUsed.Scenes.Bootstrap
 
         internal static class Pipeline
         {
+            public static HandsView hands { get; set; }
+            
             public static Pipe Entry =>
-                PrintAPI;
+                PrintAPI.Then(
+                    PrintDaemon
+                    );
 
             private static Pipe PrintAPI => async () =>
             {
@@ -51,13 +57,21 @@ namespace GameUsed.Scenes.Bootstrap
                 {
                     charList.AddRange(blessing.Where(c => !charList.Contains(c)));
                     Debug.Log(blessing);
-                    await UniTask.Delay(200);
+                    await UniTask.Delay(50);
                 }
 
                 var             file   = Path.Combine(Application.dataPath, "used characters.txt");
                 await using var writer = new StreamWriter(File.Create(file));
                 charList.ForEach(c => writer.Write(c));
 
+                return default;
+            };
+            
+            private static Pipe PrintDaemon => async () => {
+                var bodySrc = Program.BodySrc;
+                await UniTask.WaitUntil(() => bodySrc.IsReady);
+                Debug.Log("Kinect daemon 預備好了！");
+                await hands.Show(null);
                 return default;
             };
         }

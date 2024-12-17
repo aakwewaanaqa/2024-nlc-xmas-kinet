@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using GameUsed.Core;
 using UnityEngine;
+using GameUsed.Scenes.Bootstrap;
 
 namespace GameUsed.Scenes.Title
 {
@@ -10,6 +11,7 @@ namespace GameUsed.Scenes.Title
     {
         [SerializeField] public TitleView    title;
         [SerializeField] public ClawView     claw;
+        [SerializeField] private HandsView   hands;
         [SerializeField] public GiftProvider giftProvider;
         [SerializeField] public GiftReceiver giftReceiver;
 
@@ -17,6 +19,7 @@ namespace GameUsed.Scenes.Title
         {
             Pipeline.titleView        = title;
             Pipeline.clawView         = claw;
+            Pipeline.hands            = hands;
             Pipeline.giftProvider = giftProvider;
 
             var r              = await Pipeline.Entry();

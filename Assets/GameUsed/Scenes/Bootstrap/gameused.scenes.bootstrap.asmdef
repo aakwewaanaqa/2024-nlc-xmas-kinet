@@ -2,6 +2,8 @@
 	"name": "gameused.scenes.bootstrap",
 	"references": [
 		"UniTask",
+		"kinetview",
+		"kinetcore",
 		"gameused.core",
 		"Unity.TextMeshPro"
 	]
