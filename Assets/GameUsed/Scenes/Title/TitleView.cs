@@ -17,12 +17,14 @@ namespace GameUsed.Scenes.Title
         public async UniTask<object> Show(object input)
         {
             cts = cts.Link(default, out var inner);
+            
             gameObject.SetActive(true);
+            
             await group.alpha.LerpTo(1f, 3f, f =>
             {
                 group.alpha = f;
             }, ct: inner);
-            group.interactable = true;
+            
             return null;
         }
 
@@ -30,12 +32,15 @@ namespace GameUsed.Scenes.Title
         public async UniTask WaitForTouch()
         {
             var isWaiting = true;
+            
             startGame.onClick.RemoveAllListeners();
             startGame.onClick.AddListener(() =>
             {
                 Debug.Log("start game touched.");
                 isWaiting = false;
             });
+            startGame.IsInteractable = true;
+            
             await UniTask.WaitWhile(() => isWaiting);
         }
 

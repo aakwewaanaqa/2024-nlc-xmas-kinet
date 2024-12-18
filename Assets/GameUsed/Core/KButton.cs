@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -6,45 +8,50 @@ using UnityEngine.EventSystems;
 
 namespace GameUsed.Core
 {
-    // 為了讓在測試時可以用滑鼠互動，又能讓Kinect互動，製作的按鈕
-    public class KButton :
-        MonoBehaviour,
-        IPointerDownHandler, IPointerUpHandler
+    /// 為了讓在測試時可以用滑鼠互動，又能讓 Kinect 互動，製作的按鈕
+    public class KButton : MonoBehaviour
     {
         [Tooltip("是否重複執行 OnClick")]
         [SerializeField] public bool isRepeatedly;
 
+        [Tooltip("是不是可以互動")]
+        [SerializeField] private bool isInteractable;
+        
         [Tooltip("按下時執行的事件")]
         [SerializeField] public UnityEvent onClick;
 
-        private CancellationTokenSource cts { get; set; } = new();
-
-        public void OnPointerDown(PointerEventData eventData)
+        private RectTransform rectTransform { get; set; }
+        private bool isInvoked { get; set; }
+        
+        public bool IsInteractable
         {
-            cts?.Cancel();
-            cts = new CancellationTokenSource();
-            if (isRepeatedly) Loop().Forget();
-            else onClick?.Invoke();
-        }
-
-        private async UniTask Loop()
-        {
-            while (!cts.IsCancellationRequested)
+            get => isInteractable;
+            set
             {
-                await UniTask.WaitForFixedUpdate();
-                onClick?.Invoke();
+                isInvoked = false;
+                isInteractable = value;
             }
         }
 
-        public void OnPointerUp(PointerEventData eventData)
+        public void OnCasted()
         {
-            cts?.Cancel();
+            if (isInvoked) return;
+            if (!isInteractable) return;
+                
+            onClick?.Invoke();
         }
-
-        private void OnDestroy()
+        
+        private void OnDrawGizmos()
         {
-            cts?.Cancel();
-            cts?.Dispose();
+            rectTransform ??= GetComponent<RectTransform>();
+            rectTransform.Let(it =>
+            {
+                var array = new Vector3[4];
+                it.GetWorldCorners(array);
+                Gizmos.color = Color.red;
+                Gizmos.DrawLineStrip(array, true);
+                Gizmos.color = Color.white;
+            });
         }
     }
 }

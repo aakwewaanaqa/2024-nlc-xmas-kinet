@@ -59,7 +59,7 @@ namespace GameUsed.Scenes.Title
                 titleView.Hide(null).Forget();
                 clawView.Show(null).Forget();
                 await UniTask.WaitWhile(() => string.IsNullOrEmpty(blessing)); // 等待夾到禮物
-                await giftProvider.Stop(null);
+                clawView.Hide(null).Forget();
                 return default;
             };
         }

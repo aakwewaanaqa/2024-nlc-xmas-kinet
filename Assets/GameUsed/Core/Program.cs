@@ -23,8 +23,7 @@ namespace GameUsed.Core
                    .GetComponent<WiperView>());
 
         private static UniLazy<IList<string>> blessings { get; } = new(GetBlessings);
-
-
+        
         public static UniTask<IList<string>> Blessing  => blessings.Value;
         public static BodySourceManager      BodySrc   => lazyBodySrc.Value;
         public static WiperView              WiperView => lazyWiper.Value;
