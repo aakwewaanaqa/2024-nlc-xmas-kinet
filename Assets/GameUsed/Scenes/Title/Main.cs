@@ -18,11 +18,11 @@ namespace GameUsed.Scenes.Title
         [SerializeField] private TitleView title;
         [SerializeField] private ClawView claw;
         [SerializeField] private GiftProvider giftProvider;
+        [SerializeField] private ResultView result;
         
         [Header("UI")]
         [SerializeField] private Camera mainCamera;
         [SerializeField] private PhysicsRaycaster raycaster;
-        [SerializeField] private EventSystem eventSystem;
 
         private void Start()
         {
@@ -30,6 +30,7 @@ namespace GameUsed.Scenes.Title
             Pipeline.clawView = claw;
             Pipeline.hands = hands;
             Pipeline.giftProvider = giftProvider;
+            Pipeline.resultView = result;
 
             UniTask.Create(DoPipeline).Forget();
             UniTask.Create(DoUI).Forget();

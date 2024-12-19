@@ -81,6 +81,8 @@ namespace GameUsed.Core
             CancellationToken            outer,
             out CancellationToken        inner)
         {
+            outer.ThrowIfCancellationRequested();
+            
             cts?.Cancel();
             cts = new CancellationTokenSource();
             outer.Register(() => cts.Cancel());

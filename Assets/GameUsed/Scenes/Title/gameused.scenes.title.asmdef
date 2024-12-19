@@ -2,6 +2,7 @@
 	"name": "gameused.scenes.title",
 	"references": [
 		"UniTask",
+		"Unity.TextMeshPro",
 		"kinetview",
 		"gameused.core",
 		"gameused.scenes.bootstrap"

@@ -16,6 +16,7 @@ namespace GameUsed.Scenes.Title
             public static ClawView     clawView;     // 操控夾子的按鈕
             public static GiftProvider giftProvider; // 禮物提供產生器
             public static HandsView    hands;        // 手部感測顯示
+            public static ResultView   resultView;   // 結果顯示
             public static string       blessing;     // 夾到的祝福語
 
             /// <summary>
@@ -33,7 +34,9 @@ namespace GameUsed.Scenes.Title
             private static Pipe ShowReceivedGift => async () =>
             {
                 Debug.Log("ShowReceiveGift");
-                Debug.Log(blessing);
+
+                await resultView.Show(blessing);
+                
                 return default;
             };
 
