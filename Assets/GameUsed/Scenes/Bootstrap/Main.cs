@@ -14,14 +14,12 @@ namespace GameUsed.Scenes.Bootstrap
     public class Main : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI logger;
-        [SerializeField] private HandsView hands;
 
         private async UniTask Start()
         {
             Application.logMessageReceived += OnLogMessageReceived;
-            Pipeline.hands = hands;
-            var r = await Pipeline.Entry.Engage();
-            if (r.IsFaulty) Debug.LogError(r.Ex);
+            await Pipeline.Entry.Engage();
+            await SceneTransitioner.Load("title");
         }
 
         private void OnLogMessageReceived(string condition, string stackTrace, LogType type)
@@ -71,7 +69,6 @@ namespace GameUsed.Scenes.Bootstrap
                 var bodySrc = Program.BodySrc;
                 await UniTask.WaitUntil(() => bodySrc.IsReady);
                 Debug.Log("Kinect daemon 預備好了！");
-                await hands.Show(null);
                 return default;
             };
         }

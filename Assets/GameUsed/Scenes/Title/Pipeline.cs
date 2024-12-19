@@ -36,8 +36,10 @@ namespace GameUsed.Scenes.Title
                 Debug.Log("ShowReceiveGift");
 
                 await resultView.Show(blessing);
+                blessing = string.Empty;
+                await resultView.Hide(null);
                 
-                return default;
+                return new PipeReturn(null, Entry);
             };
 
             private static Pipe ShowTitle => async () =>

@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 137186706}
   - component: {fileID: 137186708}
   - component: {fileID: 137186707}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: right hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1148,7 +1148,7 @@ GameObject:
   - component: {fileID: 1008283725}
   - component: {fileID: 1008283724}
   - component: {fileID: 1008283727}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: hands view
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1650,7 +1650,7 @@ MonoBehaviour:
   title: {fileID: 2040569037}
   claw: {fileID: 1899592630}
   giftProvider: {fileID: 6030837129035897889}
-  result: {fileID: 0}
+  result: {fileID: 1673845726}
   mainCamera: {fileID: 785550551}
   raycaster: {fileID: 785550554}
 --- !u!1 &1447140115
@@ -1800,7 +1800,7 @@ GameObject:
   - component: {fileID: 1476873216}
   - component: {fileID: 1476873218}
   - component: {fileID: 1476873217}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: left hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2464,15 +2464,15 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_Camera: {fileID: 785550551}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

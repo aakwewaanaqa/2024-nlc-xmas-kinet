@@ -14,35 +14,34 @@ namespace GameUsed.Scenes.Title
         [SerializeField] private KButton skip;
 
         private static CancellationTokenSource cts { get; set; } = new();
-        
+
         public async UniTask<object> Show(object input, CancellationToken ct = default)
         {
             cts = cts.Link(ct, out var inner);
-            
+
             gameObject.SetActive(true);
-            
+
+            blessing.text = (string)input;
             await group.alpha.LerpTo(1f, 5f, a => group.alpha = a, ct: inner);
-            
+
             var isWaiting = true;
-            blessing.text = (string) input;            
             skip.onClick.RemoveAllListeners();
-            skip.onClick.AddListener(() =>
-            {
-                isWaiting = false;
-            });
+            skip.onClick.AddListener(() => { isWaiting = false; });
+            skip.IsInteractable = true;
             await UniTask.WaitWhile(() => isWaiting, cancellationToken: inner);
+            skip.IsInteractable = false;
 
             return null;
         }
-        
+
         public async UniTask<object> Hide(object input, CancellationToken ct = default)
         {
             cts = cts.Link(ct, out var inner);
 
             await group.alpha.LerpTo(0f, 5f, a => group.alpha = a, ct: inner);
-            
+
             gameObject.SetActive(false);
-            
+
             return null;
         }
     }
