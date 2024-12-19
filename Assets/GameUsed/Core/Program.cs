@@ -22,13 +22,13 @@ namespace GameUsed.Core
                    .Load<GameObject>("wiper view")
                    .GetComponent<WiperView>());
 
-        private static UniLazy<IList<string>> blessings { get; } = new(GetBlessings);
+        private static UniLazy<IReadOnlyList<string>> blessings { get; } = new(GetBlessings);
         
-        public static UniTask<IList<string>> Blessing  => blessings.Value;
+        public static UniTask<IReadOnlyList<string>> Blessing  => blessings.Value;
         public static BodySourceManager      BodySrc   => lazyBodySrc.Value;
         public static WiperView              WiperView => lazyWiper.Value;
 
-        private static async UniTask<IList<string>> GetBlessings()
+        private static async UniTask<IReadOnlyList<string>> GetBlessings()
         {
             var req  = new UnityWebRequest(BLESSING_API);
             req.downloadHandler = new DownloadHandlerBuffer();
