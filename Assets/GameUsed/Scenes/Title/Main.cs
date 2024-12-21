@@ -22,7 +22,6 @@ namespace GameUsed.Scenes.Title
         
         [Header("UI")]
         [SerializeField] private Camera mainCamera;
-        [SerializeField] private PhysicsRaycaster raycaster;
 
         private void Start()
         {
@@ -59,7 +58,7 @@ namespace GameUsed.Scenes.Title
                 
                 await UniTask.WaitForFixedUpdate();
                 
-                var hits = new RaycastHit[11];
+                var hits = new RaycastHit[3];
                 var pos = hands.rightHand.position;
                 var screenPoint = RectTransformUtility.WorldToScreenPoint(mainCamera, pos);
                 var ray = mainCamera.ScreenPointToRay(screenPoint);
